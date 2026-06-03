@@ -2,7 +2,7 @@ FROM python:3.13.13-slim
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/
 
-RUN pip install pandas pyarrow
+RUN pip install pandas pyarrow sqlalchemy psycopg2-binary tqdm click
 
 WORKDIR /code
 ENV PATH="/code/.venv/bin:$PATH"
@@ -11,6 +11,6 @@ COPY pyproject.toml  .python-version uv.lock ./
 
 RUN uv sync --locked
 
-COPY pipeline.py .
+COPY ingest_data.py .
 
-ENTRYPOINT ["python", "pipeline.py"]
+ENTRYPOINT ["python", "ingest_data.py"]
